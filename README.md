@@ -4,6 +4,26 @@
 
 
 ---
+Import into Python:
+
+```python
+import numpy as np
+from numba import jit
+
+from GeneticAlgorithm import *
+```
+
+
+Set up data variables:
+
+```python
+import numpy as np
+from numba import jit
+
+from GeneticAlgorithm import *
+```
+
+
 Example of use:
 
 
@@ -38,6 +58,11 @@ def testing(x):
     r2 = r2_score(validation['target_Dew_Point'], t)
     return mse, 1 - r2
 
+```
+
+Example of running the algorithm to optimize RMSE:
+
+```python
 
 population = GeneticAlgorithm.Population()
 population.create_population(attributes_min=-10, attributes_max=10, attributes_size=6, population_size=25000)
