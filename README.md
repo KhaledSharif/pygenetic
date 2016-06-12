@@ -14,7 +14,7 @@ from GeneticAlgorithm import *
 ```
 
 
-Set up data variables:
+Setting up our data variables:
 
 ```python
 
@@ -32,7 +32,8 @@ array_3_training, array_3_validation = array_3[:train_valid_split], array_3[trai
 
 We are going to try and minimize the right hand side (ie: the error) in the following equation:
 
-<img src="http://www.sciweavers.org/upload/Tex2Img_1465766617/render.png" align="center" border="0" />
+<img src="http://www.sciweavers.org/upload/Tex2Img_1465766617/render.png" align="center" border="0" 
+alt="(w_i (\overrightarrow{x}  + b_i))^{m_i} + (w_j (\overrightarrow{y}  + b_j))^{m_j} - \overrightarrow{z}  = E"/>
 
 Here is an example of one way to approach this using _pygenetic_:
 
@@ -51,6 +52,7 @@ def objective(x):
         w2 * ((array_2_training) + b2) ** m2)
 
     if not np.isfinite(t).all(): return 1e6
+    
     r2 = r2_score(array_3_training, t)
     return 1 - r2
 
@@ -59,20 +61,21 @@ def objective(x):
 def testing(x):
     att = x.get_attributes()
     w1, w2 = att[0], att[1]
-    b1, b2 = att[2] * 10 - 5, att[3] * 10 - 5
-    m1, m2 = att[4] + 1, att[5] + 1
+    b1, b2 = att[2], att[3]
+    m1, m2 = att[4], att[5]
 
     t = w1 * ((array_1_validation) + b1) ** m1) + \
         w2 * ((array_2_validation) + b2) ** m2)
 
     if not np.isfinite(t).all(): return 1e6
+    
     mse = np.sqrt(array_3_validation, t))
     r2 = r2_score(array_3_validation, t)
     return mse, 1 - r2
 
 ```
 
-Example of running the algorithm to optimize RMSE:
+Example of running the algorithm to optimize the Root Mean Squared Error (hereafter known as the RMSE):
 
 ```python
 
