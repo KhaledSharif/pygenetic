@@ -1,4 +1,4 @@
-# PyGenes
+# pygenetic
 ##### A fast and simple implementation of the genetic algorithm in Python.
 
 
@@ -17,29 +17,41 @@ from GeneticAlgorithm import *
 Set up data variables:
 
 ```python
-import numpy as np
-from numba import jit
 
-from GeneticAlgorithm import *
+array_1, array_2, array_3 = [...], [...], [...]
+
+train_valid_ratio = 0.9  # split into 90% training and 10% validation
+train_valid_split = int(len(array_1)*train_valid_ratio)  # under the assumption they are all equal in size
+
+array_1_training, array_1_validation = array_1[:train_valid_split], array_1[train_valid_split:]
+array_2_training, array_2_validation = array_2[:train_valid_split], array_2[train_valid_split:]
+array_3_training, array_3_validation = array_3[:train_valid_split], array_3[train_valid_split:]
+
 ```
 
 
-Example of use:
+We are going to try and minimize the right hand side (ie: the error) in the following equation:
+
+``(w * x)^m = e``
+
+Here is an example of one way to approach this using _pygenetic_:
 
 
 ```python
 @jit
 def objective(x):
     att = x.get_attributes()
-    w1, w2 = att[0], att[1]
-    b1, b2 = att[2] * 10 - 5, att[3] * 10 - 5
-    m1, m2 = att[4] + 1, att[5] + 1
+    
+    # our function has the form (w1*x1+b1)^m1 + ...
+    w1, w2 = att[0], att[1]  # multiplicative weights
+    b1, b2 = att[2], att[3]  # additional biases
+    m1, m2 = att[4], att[5]  # exponents of the bracket, ie: (w*x + b)
 
-    t = w1 * ((np.array(training['dew_point_ukmet'].values) + b1) ** m1) + \
-        w2 * ((np.array(training['dew_point_gfs'].values) + b2) ** m2)
+    t = w1 * ((array_1_training) + b1) ** m1) + \
+        w2 * ((array_2_training) + b2) ** m2)
 
     if not np.isfinite(t).all(): return 1e6
-    r2 = r2_score(training['target_Dew_Point'], t)
+    r2 = r2_score(array_3_training, t)
     return 1 - r2
 
 
@@ -50,12 +62,12 @@ def testing(x):
     b1, b2 = att[2] * 10 - 5, att[3] * 10 - 5
     m1, m2 = att[4] + 1, att[5] + 1
 
-    t = w1 * ((np.array(validation['dew_point_ukmet'].values) + b1) ** m1) + \
-        w2 * ((np.array(validation['dew_point_gfs'].values) + b2) ** m2)
+    t = w1 * ((array_1_validation) + b1) ** m1) + \
+        w2 * ((array_2_validation) + b2) ** m2)
 
     if not np.isfinite(t).all(): return 1e6
-    mse = np.sqrt(mean_squared_error(validation['target_Dew_Point'], t))
-    r2 = r2_score(validation['target_Dew_Point'], t)
+    mse = np.sqrt(array_3_validation, t))
+    r2 = r2_score(array_3_validation, t)
     return mse, 1 - r2
 
 ```
