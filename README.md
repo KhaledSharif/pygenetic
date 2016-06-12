@@ -32,7 +32,7 @@ array_3_training, array_3_validation = array_3[:train_valid_split], array_3[trai
 
 We are going to try and minimize the right hand side (ie: the error) in the following equation:
 
-``(w * x)^m = e``
+<img src="http://www.sciweavers.org/upload/Tex2Img_1465766617/render.png" align="center" border="0" />
 
 Here is an example of one way to approach this using _pygenetic_:
 
