@@ -21,7 +21,7 @@ Setting up our data variables:
 array_1, array_2, array_3 = [...], [...], [...]
 
 train_valid_ratio = 0.9  # split into 90% training and 10% validation
-train_valid_split = int(len(array_1)*train_valid_ratio)  # under the assumption they are all equal in size
+train_valid_split = int(len(array_1)*train_valid_ratio) 
 
 array_1_training, array_1_validation = array_1[:train_valid_split], array_1[train_valid_split:]
 array_2_training, array_2_validation = array_2[:train_valid_split], array_2[train_valid_split:]
@@ -32,8 +32,7 @@ array_3_training, array_3_validation = array_3[:train_valid_split], array_3[trai
 
 We are going to try and minimize the right hand side (ie: the error) in the following equation:
 
-<img src="http://www.sciweavers.org/upload/Tex2Img_1465766617/render.png" align="center" border="0" 
-alt="(w_i (\overrightarrow{x}  + b_i))^{m_i} + (w_j (\overrightarrow{y}  + b_j))^{m_j} - \overrightarrow{z}  = E"/>
+<img src="https://latex.codecogs.com/gif.latex?\LARGE&space;(w_i&space;(\overrightarrow{x}&space;&plus;&space;b_i))^{m_i}&space;&plus;&space;(w_j&space;(\overrightarrow{y}&space;&plus;&space;b_j))^{m_j}&space;-&space;\overrightarrow{z}&space;=&space;E" title="\LARGE (w_i (\overrightarrow{x} + b_i))^{m_i} + (w_j (\overrightarrow{y} + b_j))^{m_j} - \overrightarrow{z} = E" />
 
 Here is an example of one way to approach this using _pygenetic_:
 
