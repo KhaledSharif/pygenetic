@@ -8,8 +8,6 @@ Import into Python:
 
 ```python
 import numpy as np
-from numba import jit
-
 from GeneticAlgorithm import *
 ```
 
@@ -38,7 +36,6 @@ Here is an example of one way to approach this using _pygenetic_:
 
 
 ```python
-@jit
 def objective(x):
     att = x.get_attributes()
     
@@ -56,7 +53,6 @@ def objective(x):
     return 1 - r2
 
 
-@jit
 def testing(x):
     att = x.get_attributes()
     w1, w2 = att[0], att[1]
@@ -71,13 +67,11 @@ def testing(x):
     mse = np.sqrt(array_3_validation, t))
     r2 = r2_score(array_3_validation, t)
     return mse, 1 - r2
-
 ```
 
 Example of running the algorithm to optimize the Root Mean Squared Error (hereafter known as the RMSE):
 
 ```python
-
 population = GeneticAlgorithm.Population()
 population.create_population(attributes_min=-10, attributes_max=10, attributes_size=6, population_size=25000)
 population.sort_population(function=objective, maximize=False)
